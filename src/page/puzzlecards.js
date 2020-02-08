@@ -25,17 +25,27 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onClickAdd: (newCard) => {
             const action = {
+                // action.type 可以被 dva model 的 effect(优先)||reducer 捕获并处理
                 type: `${namespace}/addNewCard`,
                 payload: newCard
             };
             // TODO 必须包含 type 字段，用来告诉 dva 我们想要干什么
             dispatch(action);
+        },
+        onDidMount: () => {
+            dispatch({
+                type: `${namespace}/queryInitCards`
+            });
         }
     };
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 class PuzzleCardsPage extends Component {
+
+    componentDidMount() {
+        this.props.onDidMount();
+    }
 
     render() {
         return (

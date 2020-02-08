@@ -33,13 +33,24 @@
 #### 2.5 action 是 reducers 及 effects 的触发器，一般是一个对象，形如{ type: 'add', payload: todo }，通过 type 属性可以匹配到具体某个 reducer 或者 effect，payload 属性则是数据体，用于传送给 reducer 或 effect
 #### 2.6、一个基本的 dva model 最少具备两个成员：namespace（model唯一标识） 和 state（该 model 管理的数据）
 ```javascript
-// reducer 的大概样子 应该是一个纯函数
+// dva 中一个典型的 reducer 的写法
 someReducer(state /* old state */, { payload }) {
   // ... do calculation
   return {
     // ... build a new object as next state and return it
   };
 }
+```
+```javascript
+// dva 中一个典型的 effect 的写法
+getData: function* ({ payload }, { call, put }) {
+  const data = yield call(SomeService.getEndpointData, payload, 'maybeSomeOtherParams');
+  yield put({ type: 'getData_success', payload: data });
+}
+/**
+ *call 其实是一个函数，和 yield 关键字配合使用处理异步逻辑，call 第一个参数是一个函数，要求函数返回 Promise，之后的参数是该函数调用时的入参。yield call 调用后就阻塞了，Promise 被解析后，得到异步调用的结果，存储到 data 中，然后程序才能继续进行。
+ *put 也是一个函数，put 和 yield 配合使用，用来派发一个 action，和 dispatch 的功能 一模一样！只不过是在 effect 函数中使用而已
+ **/
 ```
 #### 2.7、connect 是连接 dva 和 React 两个平行世界的关键
 ##### 2.7.1、让组件获取到两样东西：model 中的数据；驱动 model 改变的方法
