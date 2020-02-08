@@ -2,6 +2,13 @@
 export default {
     //使用单数来作为约定目录，受影响目录包括：page component model service
     singular: true,
+
+    //全局配置 umi 主题
+    theme: {
+        //对应 type=primary 的 button 的 color 会被全局更改 - less 的 modifyVars 机制（不是很懂）
+        "@primary-color": "#30b767"
+    },
+
     //插件
     plugins: [
         ['umi-plugin-react', {
@@ -22,6 +29,18 @@ export default {
 
     //配置式路由 - 当有了 routes 的配置之后 umi 就不会再执行约定式对应的路由逻辑了，而是直接使用通过配置声明的路由
     routes: [
+        {
+            path: '/cssWithAntD',
+            component: './css-modules-with-antd'
+        },
+        {
+            path: '/cssWithLess',
+            component: './css-module-with-less'
+        },
+        {
+            path: '/index',
+            component: './index'
+        },
         {
             /*当需要一个 layout 作为展示，可以将 layout 设置为顶级路由，需要 layout 效果的继续下挂*/
             /*TODO 通过此种路由设置，可避免在代码中使用 BasicLayout 进行代码嵌套*/

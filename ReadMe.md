@@ -66,7 +66,33 @@ getData: function* ({ payload }, { call, put }) {
 ### 3、DVA 可以帮助我们把 state 上提到所有 React组件 之上
 - 页面通过调用 dispatch 函数来驱动 dva model state 的改变；
 - 改变后的 dva model state通过 connect 方法注入页面。
-   
+
         组件不再负责管理数据，组件只是通过 connect 向 dva 声明所需数据 
 ### 4、实际开发中我们希望把数据逻辑和视图逻辑分开管理在不同的模块中（必要时数据可以提供给不同的组件使用，即数据共享）
 ### 5、React 有一个基本哲学：数据映射到视图。无论什么操作，本质都是去触发 state 的改变，state 的改变再映射回视图
+### 6、在 umi 中我们默认开启了 CSS modules 特性，这使得 class 名需要通过变量属性去引用
+    如果一个 CSS 文件仅仅是作用在某个局部的话，我们称这样一个 CSS 文件为 CSS module
+    CSS modules 是从工具层面给出的一套生成局部 CSS 的规范，本质还是生成全局唯一的 CSS 定义。webpack 实现了这套规范。umi 依赖 webpack，默认开启了 CSS modules 特性
+    很多 CSS 选择器是不会被 CSS Modules 处理的，比如 body、div 、a 这样的 HTML 标签名就不会。我们推荐如果要定义局部 css 样式/动画， 只使用 class 或 @keyframe
+    在工具的支持下，一个 Less 文件首先会经过 CSS modules 的编译，把类名全局唯一化，然后才被 Less preprocessor 编译成为 CSS 文件。正因此，Less 文件可以和 CSS modules 无缝联合使用
+    
+    在w3c 规范中，CSS 始终是「全局的」；
+    编译后实际的 class 名称为 style__hello__<hash数值>，确保全局唯一  ==> 变相的使 CSS 成为非全局的
+    全局唯一带来的特性就是样式不会被覆盖（如果需要被覆盖：global 语法，允许声明一个 class 名称不可被改写）
+    
+```javascript
+// global 语法使用
+:global(.ant-btn) {
+  // ...
+}
+
+/**
+ * global 不应该被滥用
+ * 若想在某个文件中覆盖 antd 样式，请加上一个类似 .override-ant-btn 的类包裹住 global 修饰的名称，以避免全局样式声明分散在项目各处
+ **/
+```
+
+### 7、更换 antd 主题：批量修改，依赖于 less 的 modifyVars 机制，在配置文件 config/config.js|.umirc.js 中配置对应的 theme；支持修改的 antd 变量可参考 [这里](https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less)
+### 8、更改全局样式：umi 有一个专门的文件 global.less 来自定义全局样式，这个文件不会被 CSS modules 处理
+    全局性地定义 HTML 标签的样式
+    全局性地覆盖第三方库的样式

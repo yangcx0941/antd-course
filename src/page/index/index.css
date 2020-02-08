@@ -1,0 +1,10 @@
+/**
+ * 值上面不适用引号
+ * . 号紧跟 class，定义一个 class 选择器
+ * 在 umi 中我们默认开启了 CSS modules 特性，这使得 class 名需要通过变量属性去引用
+ */
+.hello {
+    font-size: 32px;
+    font-weight: bold;
+    color: #30b767; /* 绿色 */
+}
