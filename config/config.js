@@ -31,6 +31,9 @@ export default {
             component: "../layout",
             routes: [
                 {
+                    path: '/list',
+                    component: './list'
+                }, {
                     path: 'puzzlecards',
                     component: './puzzlecards'
                 }, {
