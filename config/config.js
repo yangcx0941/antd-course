@@ -10,6 +10,16 @@ export default {
             antd: true
         }]
     ],
+
+    //代理 - 规避跨域：把 ajax 请求发送到本域开发服务器，然后本域开发服务器再把 ajax 请求转发到远端去，从网络拓扑上看本地开发服务器起着「反向代理」的作用
+    proxy: {
+        // 如果请求以 /dev 开头，就由本域服务器转发到远端的服务器，/dev 也会保留在转发地址中
+        '/dev': {
+            target: 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com',
+            changeOrigin: true,
+        },
+    },
+
     //配置式路由 - 当有了 routes 的配置之后 umi 就不会再执行约定式对应的路由逻辑了，而是直接使用通过配置声明的路由
     routes: [
         {
