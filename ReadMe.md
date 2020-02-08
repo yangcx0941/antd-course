@@ -13,6 +13,10 @@
 ### 9、umi 中，应用都是单页应用
 ### 10、config.js|.umirc.js 中的路由配置：path-表示浏览器访问路径；component-相对于 page[s] 的路径
     path 不区分大小写
+### 11、代理配置
+### 12、Mock 数据：设置模拟数据时需要在工程根目录下的 mock 子目录中的建立文件。
+#### 12.1、整个文件需要 export 出一个 js 对象，对象的 key 由 <Http_verb> <Resource_uri> 构成，值是 function；
+#### 12.2、利用 res.status 也可以模拟 http 请求出错
     
 ---
 ### 归根结底，props 是用来传导数据的，而 state 是数据改变的源泉
@@ -59,7 +63,6 @@ getData: function* ({ payload }, { call, put }) {
 #### 2.8、connect 常用参数说明
 ##### 2.8.1、mapStateToProps 这个函数的入参 state 其实是 dva 中所有 state 的总合(包含了所有 namespace 下的 state，我们自己定义的 dva model state 就是以 namespace 为 key 的 state 成员)；dva 期待 mapStateToProps 函数返回一个 对象，这个对象会被 dva 并入到当前组件的 props 中
 ##### 2.8.2、mapDispatchToProps 以 dispatch 为入参，返回一个挂着函数的对象，这个对象上的函数会被 dva 并入 props，注入给当前组件使用；dispatch 函数就是组件和 dva model 打交道的唯一途径
-##### 2.8.3、
 ### 3、DVA 可以帮助我们把 state 上提到所有 React组件 之上
 - 页面通过调用 dispatch 函数来驱动 dva model state 的改变；
 - 改变后的 dva model state通过 connect 方法注入页面。

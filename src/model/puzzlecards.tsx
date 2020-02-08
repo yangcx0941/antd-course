@@ -11,15 +11,15 @@ export default {
     namespace: 'puzzlecards',
     state: {
         data: [
-            {
-                id: 1,
-                setup: 'Did you hear about the two silk worms in a race?',
-                punchline: 'It ended in a tie',
-            }, {
-                id: 2,
-                setup: 'What happens to a frog\'s car when it breaks down?',
-                punchline: 'It gets toad away',
-            }
+            // {
+            //     id: 1,
+            //     setup: 'Did you hear about the two silk worms in a race?',
+            //     punchline: 'It ended in a tie',
+            // }, {
+            //     id: 2,
+            //     setup: 'What happens to a frog\'s car when it breaks down?',
+            //     punchline: 'It gets toad away',
+            // }
         ],
         counter: 100,
     },
@@ -69,20 +69,25 @@ export default {
             // FIXME sagaEffects 是 dva 的规范参数？？？
             const {call, put} = sagaEffects;
 
-            // 使用此种请求方式，直接由浏览器发送请求到第三方服务器，存在跨域问题
-            // const endPointURI = 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke';
+            // 加入异常捕获机制 TODO 实际开发中会统一处理 http 请求错误时的信息提示
+            try {
+                // 使用此种请求方式，直接由浏览器发送请求到第三方服务器，存在跨域问题
+                // const endPointURI = 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke';
 
-            // （推荐）配合代理设置，将此请求先发送到本域服务器，再由本域服务器转发到第三方服务器来规避可能的跨域问题
-            const endPointURI = '/dev/random_joke';
+                // （推荐）配合代理设置，将此请求先发送到本域服务器，再由本域服务器转发到第三方服务器来规避可能的跨域问题
+                const endPointURI = '/dev/random_joke';
 
-            const puzzle = yield call(request, endPointURI);
-            yield put({type: 'addNewCard', payload: puzzle});
+                const puzzle = yield call(request, endPointURI);
+                yield put({type: 'addNewCard', payload: puzzle});
 
-            // 暂停3秒钟
-            yield call(delay, 3000);
+                // 暂停3秒钟
+                yield call(delay, 3000);
 
-            const puzzle2 = yield call(request, endPointURI);
-            yield put({type: 'addNewCard', payload: puzzle2});
+                const puzzle2 = yield call(request, endPointURI);
+                yield put({type: 'addNewCard', payload: puzzle2});
+            } catch (e) {
+                console.error("数据获取失败");
+            }
         }
     },
 
