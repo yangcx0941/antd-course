@@ -67,7 +67,8 @@ getData: function* ({ payload }, { call, put }) {
 - 页面通过调用 dispatch 函数来驱动 dva model state 的改变；
 - 改变后的 dva model state通过 connect 方法注入页面。
 
-        组件不再负责管理数据，组件只是通过 connect 向 dva 声明所需数据 
+     
+	 组件不再负责管理数据，组件只是通过 connect 向 dva 声明所需数据 
 ### 4、实际开发中我们希望把数据逻辑和视图逻辑分开管理在不同的模块中（必要时数据可以提供给不同的组件使用，即数据共享）
 ### 5、React 有一个基本哲学：数据映射到视图。无论什么操作，本质都是去触发 state 的改变，state 的改变再映射回视图
 ### 6、在 umi 中我们默认开启了 CSS modules 特性，这使得 class 名需要通过变量属性去引用
